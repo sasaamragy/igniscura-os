@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IgnisCura OS - Incident Command Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* إضافة ستايل تكتيكي سريع لأزرار المجموعات */
+        .crew-switcher {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            background-color: #161d26;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #232d3b;
+        }
+        .crew-btn {
+            background: #1e293b;
+            color: #94a3b8;
+            border: 1px solid #334155;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .crew-btn.active {
+            background: #00e5ff;
+            color: #0f1319;
+            border-color: #00e5ff;
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo-area">
+            <h1>IgnisCura <span>OS</span></h1>
+            <span class="system-status online">System Live</span>
+        </div>
+        <div class="global-metrics">
+            <div class="metric-summary" style="border-left: 3px solid #00e5ff; padding-left: 10px;">
+                <small style="display:block; font-size:10px; color:#64748b; text-transform:uppercase; margin-bottom:2px;">Role</small>
+                <strong style="color: #e2e8f0; font-size:14px;">Incident Commander Dashboard</strong>
+            </div>
+            <div class="metric-summary">Total active: <span id="total-crew" style="color: #00e5ff; font-weight:bold;">8</span></div>
+            <div class="metric-summary nominal">Nominal: <span id="nominal-crew">6</span></div>
+            <div class="metric-summary critical">Critical: <span id="critical-crew">1</span></div>
+        </div>
+        
+<div class="time-area" style="display: flex; align-items: center; gap: 15px;">
+            <span id="live-clock">00:00:00</span>
+            <button onclick="window.location.href='login.html'" style="background: #1e293b; color: #ff1744; border: 1px solid #ff1744; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 12px;">SIGN OUT</button>
+        </div>
+    </header>
+
+    <div class="crew-switcher">
+        <button class="crew-btn active" onclick="switchCrew('alpha')">Crew Alpha (Sector 1)</button>
+        <button class="crew-btn" onclick="switchCrew('bravo')">Crew Bravo (Sector 2)</button>
+    </div>
+
+    <div class="dashboard-container">
+        
+        <main class="cards-grid">
+            
+            <div class="firefighter-card status-nominal" id="card-1">
+                <div class="card-header">
+                    <h3 id="name-1">FF. John Miller</h3>
+                    <span class="badge" id="id-1">ID: #01</span>
+                </div>
+                <div class="metrics-list">
+                    <div class="metric-item">
+                        <span class="label">Heart Rate:</span>
+                        <span class="value"><span id="hr-1">85</span> <small>bpm</small></span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="label">Core Temp:</span>
+                        <span class="value"><span id="temp-1">37.2</span> <small>°C</small></span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="label">Respiration:</span>
+                        <span class="value" id="resp-1">18 <small>br/min</small></span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="label">Ambient Temp:</span>
+                        <span class="value" id="amb-1">45 <small>°C</small></span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <span class="movement-status active" id="foot-1">Status: Active</span>
+                </div>
+            </div>
+
+            <div class="firefighter-card status-critical" id="card-2">
+                <div class="card-header">
+                    <h3 id="name-2">FF. Matt Davis</h3>
+                    <span class="badge" id="id-2">ID: #02</span>
+                </div>
+                <div class="metrics-list">
+                    <div class="metric-item">
+                        <span class="label">Heart Rate:</span>
+                        <span class="value highlight"><span id="hr-2">182</span> <small>bpm</small></span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="label">Core Temp:</span>
+                        <span class="value highlight"><span id="temp-2">39.5</span> <small>°C</small></span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="label">Respiration:</span>
+                        <span class="value" id="resp-2">28 <small>br/min</small></span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="label">Ambient Temp:</span>
+                        <span class="value highlight" id="amb-2">95 <small>°C</small></span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <span class="movement-status fallen" id="foot-2">Status: Fallen (Man-Down)</span>
+                </div>
+            </div>
+
+            <div class="firefighter-card status-warning" id="card-3">
+                <div class="card-header">
+                    <h3 id="name-3">FF. David Clark</h3>
+                    <span class="badge" id="id-3">ID: #03</span>
+                </div>
+                <div class="metrics-list">
+                    <div class="metric-item">
+                        <span class="label">Heart Rate:</span>
+                        <span class="value" style="color: #ffea00;"><span id="hr-3">145</span> <small>bpm</small></span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="label">Core Temp:</span>
+                        <span class="value"><span id="temp-3">38.1</span> <small>°C</small></span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="label">Respiration:</span>
+                        <span class="value" id="resp-3">22 <small>br/min</small></span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="label">Ambient Temp:</span>
+                        <span class="value" id="amb-3">65 <small>°C</small></span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <span class="movement-status" style="color: #ffea00;" id="foot-3">Status: Elevated Strain</span>
+                </div>
+            </div>
+
+            <div class="firefighter-card status-nominal" id="card-4">
+                <div class="card-header">
+                    <h3 id="name-4">FF. Chris Evans</h3>
+                    <span class="badge" id="id-4">ID: #04</span>
+                </div>
+                <div class="metrics-list">
+                    <div class="metric-item">
+                        <span class="label">Heart Rate:</span>
+                        <span class="value"><span id="hr-4">78</span> <small>bpm</small></span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="label">Core Temp:</span>
+                        <span class="value"><span id="temp-4">36.9</span> <small>°C</small></span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="label">Respiration:</span>
+                        <span class="value" id="resp-4">16 <small>br/min</small></span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="label">Ambient Temp:</span>
+                        <span class="value" id="amb-4">40 <small>°C</small></span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <span class="movement-status active" id="foot-4">Status: Active</span>
+                </div>
+            </div>
+
+        </main>
+
+        <aside class="alerts-sidebar">
+            <h2>Live Tactical Alerts</h2>
+            <div class="alerts-log" id="alerts-container">
+                <div class="alert-box critical-alert">
+                    <strong>[CRITICAL]:</strong> FF. Matt Davis (#02) breached core heat threshold! Evacuate immediately.
+                </div>
+                <div class="alert-box warning-alert">
+                    <strong>[WARNING]:</strong> FF. David Clark (#03) showing elevated heart rate.
+                </div>
+            </div>
+            <button class="mass-evac-btn">TRIGGER MASS EVACUATION</button>
+        </aside>
+
+    </div>
+
+    <script>
+        const crewsData = {
+            alpha: [
+                { name: "FF. John Miller", id: "ID: #01", resp: "18 br/min", amb: "45 °C", foot: "Status: Active", css: "status-nominal", footStyle: "color: #00e676" },
+                { name: "FF. Matt Davis", id: "ID: #02", resp: "28 br/min", amb: "95 °C", foot: "Status: Fallen (Man-Down)", css: "status-critical", footStyle: "color: #ff1744" },
+                { name: "FF. David Clark", id: "ID: #03", resp: "22 br/min", amb: "65 °C", foot: "Status: Elevated Strain", css: "status-warning", footStyle: "color: #ffea00" },
+                { name: "FF. Chris Evans", id: "ID: #04", resp: "16 br/min", amb: "40 °C", foot: "Status: Active", css: "status-nominal", footStyle: "color: #00e676" }
+            ],
+            bravo: [
+                { name: "FF. Robert Taylor", id: "ID: #05", resp: "19 br/min", amb: "38 °C", foot: "Status: Active", css: "status-nominal", footStyle: "color: #00e676" },
+                { name: "FF. James Wilson", id: "ID: #06", resp: "21 br/min", amb: "42 °C", foot: "Status: Active", css: "status-nominal", footStyle: "color: #00e676" },
+                { name: "FF. Brian Thomas", id: "ID: #07", resp: "20 br/min", amb: "50 °C", foot: "Status: Active", css: "status-nominal", footStyle: "color: #00e676" },
+                { name: "FF. Kevin Harris", id: "ID: #08", resp: "17 br/min", amb: "39 °C", foot: "Status: Active", css: "status-nominal", footStyle: "color: #00e676" }
+            ]
+        };
+
+        let currentCrew = 'alpha';
+
+        function switchCrew(crewName) {
+            currentCrew = crewName;
+            const buttons = document.querySelectorAll('.crew-btn');
+            buttons[0].classList.toggle('active', crewName === 'alpha');
+            buttons[1].classList.toggle('active', crewName === 'bravo');
+
+            const data = crewsData[crewName];
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById(`name-${i}`).textContent = data[i-1].name;
+                document.getElementById(`id-${i}`).textContent = data[i-1].id;
+                document.getElementById(`resp-${i}`).innerHTML = data[i-1].resp;
+                document.getElementById(`amb-${i}`).innerHTML = data[i-1].amb;
+                
+                const footer = document.getElementById(`foot-${i}`);
+                footer.textContent = data[i-1].foot;
+                footer.style = data[i-1].footStyle;
+
+                const card = document.getElementById(`card-${i}`);
+                card.className = `firefighter-card ${data[i-1].css}`;
+            }
+        }
+
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('live-clock').textContent = now.toTimeString().split(' ')[0];
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        function simulateBiometrics() {
+            if (currentCrew === 'alpha') {
+                document.getElementById('hr-1').textContent = Math.floor(Math.random() * (89 - 81) + 81);
+                document.getElementById('temp-1').textContent = (Math.random() * (37.3 - 37.0) + 37.0).toFixed(1);
+                
+                document.getElementById('hr-2').textContent = Math.floor(Math.random() * (186 - 180) + 180);
+                document.getElementById('temp-2').textContent = (Math.random() * (39.7 - 39.4) + 39.4).toFixed(1);
+
+                document.getElementById('hr-3').textContent = Math.floor(Math.random() * (149 - 141) + 141);
+                document.getElementById('temp-3').textContent = (Math.random() * (38.2 - 37.8) + 37.8).toFixed(1);
+
+                document.getElementById('hr-4').textContent = Math.floor(Math.random() * (81 - 76) + 76);
+                document.getElementById('temp-4').textContent = (Math.random() * (37.0 - 36.6) + 36.6).toFixed(1);
+            } else {
+                for (let i = 1; i <= 4; i++) {
+                    document.getElementById(`hr-${i}`).textContent = Math.floor(Math.random() * (85 - 72) + 72);
+                    document.getElementById(`temp-${i}`).textContent = (Math.random() * (37.2 - 36.5) + 36.5).toFixed(1);
+                }
+            }
+        }
+        setInterval(simulateBiometrics, 2000);
+    </script>
+
+</body>
+</html>

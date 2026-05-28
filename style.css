@@ -1,0 +1,229 @@
+/* ==========================================================================
+   IgnisCura OS - Tactical Dashboard Stylesheet
+   ========================================================================== */
+
+:root {
+    --bg-dark: #0f1319;
+    --card-bg: #161d26;
+    --text-main: #e2e8f0;
+    --text-muted: #94a3b8;
+    --primary-blue: #00e5ff;
+    --status-green: #00e676;
+    --status-yellow: #ffea00;
+    --status-red: #ff1744;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* 1. Top Header Navigation */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--card-bg);
+    padding: 15px 25px;
+    border-radius: 8px;
+    border-bottom: 2px solid #232d3b;
+    margin-bottom: 20px;
+}
+
+.logo-area h1 {
+    font-size: 24px;
+    letter-spacing: 1px;
+}
+
+.logo-area h1 span {
+    color: var(--primary-blue);
+}
+
+.system-status {
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-left: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(0, 230, 118, 0.1);
+    color: var(--status-green);
+}
+
+.global-metrics {
+    display: flex;
+    gap: 20px;
+}
+
+.metric-summary {
+    background: #1e293b;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-weight: 6px;
+    font-size: 14px;
+}
+
+.metric-summary.nominal span { color: var(--status-green); font-weight: bold; }
+.metric-summary.critical span { color: var(--status-red); font-weight: bold; }
+
+.time-area {
+    font-size: 18px;
+    font-family: monospace;
+    color: var(--primary-blue);
+}
+
+/* 2. Layout Container */
+.dashboard-container {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 20px;
+}
+
+/* 3. Firefighter Cards Grid */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.firefighter-card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 18px;
+    border: 1px solid #232d3b;
+    transition: all 0.3s ease;
+}
+
+/* Dynamic Borders based on Triage Status */
+.status-nominal { border-left: 5px solid var(--status-green); }
+.status-critical { 
+    border-left: 5px solid var(--status-red); 
+    animation: pulse-red 2s infinite;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #232d3b;
+    padding-bottom: 8px;
+}
+
+.card-header h3 { font-size: 18px; }
+.badge { font-size: 12px; color: var(--text-muted); font-family: monospace; }
+
+.metrics-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.metric-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+.metric-item .label { color: var(--text-muted); }
+.metric-item .value { font-weight: bold; }
+.metric-item .value small { font-size: 11px; color: var(--text-muted); }
+
+.highlight {
+    color: var(--status-red);
+    font-weight: bold;
+}
+
+.card-footer {
+    padding-top: 10px;
+    border-top: 1px solid #232d3b;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.movement-status.active { color: var(--status-green); }
+.movement-status.fallen { color: var(--status-red); animation: blink 1s infinite; }
+
+/* 4. Sidebar & Alerts Log */
+.alerts-sidebar {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #232d3b;
+}
+
+.alerts-sidebar h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: var(--text-main);
+    border-bottom: 1px solid #232d3b;
+    padding-bottom: 8px;
+}
+
+.alerts-log {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+.alert-box {
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.critical-alert {
+    background: rgba(255, 23, 68, 0.1);
+    border: 1px solid var(--status-red);
+    color: #ff8a80;
+}
+
+.warning-alert {
+    background: rgba(255, 234, 0, 0.1);
+    border: 1px solid var(--status-yellow);
+    color: #ffff8d;
+}
+
+.mass-evac-btn {
+    background-color: var(--status-red);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    letter-spacing: 1px;
+    transition: background 0.2s;
+}
+
+.mass-evac-btn:hover {
+    background-color: #d50000;
+}
+
+/* Animations for Critical Statuses */
+@keyframes pulse-red {
+    0% { box-shadow: 0 0 0 0 rgba(255, 23, 68, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 23, 68, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 23, 68, 0); }
+}
+
+@keyframes blink {
+    50% { opacity: 0.3; }
+}
