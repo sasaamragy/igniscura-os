@@ -51,8 +51,10 @@
             <div class="metric-summary critical">Critical: <span id="critical-crew">1</span></div>
         </div>
         
-<div class="time-area" style="display: flex; align-items: center; gap: 15px;">
+        <div class="time-area" style="display: flex; align-items: center; gap: 15px;">
             <span id="live-clock">00:00:00</span>
+            <!-- تم التعديل هنا: الـ ID أصبح زرار بروفايل تكتيكي تفاعلي -->
+            <span id="user-profile-trigger" onclick="toggleProfileModal()" style="background: #1e293b; color: #00e5ff; border: 1px solid #00e5ff; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 12px; letter-spacing: 1px; user-select: none;">🆔 IC-CHIEF-01</span>
             <button onclick="window.location.href='login.html'" style="background: #1e293b; color: #ff1744; border: 1px solid #ff1744; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 12px;">SIGN OUT</button>
         </div>
     </header>
@@ -195,6 +197,24 @@
 
     </div>
 
+    <!-- INCIDENT COMMANDER PROFILE MODAL (النافذة المنبثقة التكتيكية للبروفايل) -->
+    <div id="profileModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 25, 47, 0.85); backdrop-filter: blur(5px); z-index: 9999; justify-content: center; align-items: center;">
+        <div style="background: #112240; border: 2px solid #00e5ff; border-radius: 8px; width: 350px; padding: 25px; box-shadow: 0 0 20px rgba(0, 229, 255, 0.2); text-align: center; font-family: monospace; color: #fff;">
+            <div style="width: 90px; height: 90px; border-radius: 50%; border: 2px solid #00e5ff; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; background: #0a192f; font-size: 35px;">👨‍🚒</div>
+            <h3 style="color: #00e5ff; margin: 0 0 5px 0; letter-spacing: 1px;">INCIDENT COMMANDER</h3>
+            <p style="color: #8892b0; margin: 0 0 20px 0; font-size: 13px;">NIMS Certified Sector Chief</p>
+            
+            <table style="width: 100%; text-align: left; font-size: 13px; border-collapse: collapse; margin-bottom: 20px;">
+                <tr style="border-bottom: 1px solid #233554;"><td style="padding: 8px 0; color: #8892b0;">Tactical ID:</td><td style="padding: 8px 0; font-weight: bold; color: #00e5ff;">IC-CHIEF-01</td></tr>
+                <tr style="border-bottom: 1px solid #233554;"><td style="padding: 8px 0; color: #8892b0;">Clearance:</td><td style="padding: 8px 0; font-weight: bold; color: #ffc107;">LEVEL 4 (HQ)</td></tr>
+                <tr style="border-bottom: 1px solid #233554;"><td style="padding: 8px 0; color: #8892b0;">Assigned Zone:</td><td style="padding: 8px 0; font-weight: bold;">Sector Alpha / Bravo</td></tr>
+                <tr><td style="padding: 8px 0; color: #8892b0;">Encryption Node:</td><td style="padding: 8px 0; font-weight: bold; color: #00e5ff;">AES-256 Active</td></tr>
+            </table>
+
+            <button onclick="toggleProfileModal()" style="background: #00e5ff; color: #0a192f; border: none; padding: 8px 20px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; letter-spacing: 1px;">CLOSE NODE</button>
+        </div>
+    </div>
+
     <script>
         const crewsData = {
             alpha: [
@@ -263,6 +283,16 @@
             }
         }
         setInterval(simulateBiometrics, 2000);
+
+        // دالة التحكم في فتح وإغلاق بروفايل القائد
+        function toggleProfileModal() {
+            const modal = document.getElementById('profileModal');
+            if (modal.style.display === 'none' || modal.style.display === '') {
+                modal.style.display = 'flex';
+            } else {
+                modal.style.display = 'none';
+            }
+        }
     </script>
 
 </body>
